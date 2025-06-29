@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: true
                 ),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: 16),
                 CustomButton(
                   text: 'Login',
                   onTap: () {},
@@ -65,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 const SizedBox(height: 10),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "Not a member?",

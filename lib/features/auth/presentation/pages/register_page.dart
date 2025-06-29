@@ -73,7 +73,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   obscureText: true
                 ),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: 16),
                 CustomButton(
                   text: 'Register',
                   onTap: () {},
@@ -81,6 +81,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 const SizedBox(height: 10),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "Already a member?",
