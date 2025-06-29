@@ -27,8 +27,8 @@ android {
         applicationId = "com.example.social_media_app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        minSdkVersion = 21
+        targetSdkVersion = 33
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
