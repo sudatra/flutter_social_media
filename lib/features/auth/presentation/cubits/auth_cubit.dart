@@ -19,7 +19,7 @@ class AuthCubit extends Cubit<AuthState>{
       _currentUser = user;
       emit(Authenticated(user));
     } else {
-      UnAuthenticated();
+      emit(UnAuthenticated());
     }
   }
 
@@ -34,7 +34,7 @@ class AuthCubit extends Cubit<AuthState>{
       _currentUser = user;
       emit(Authenticated(user));
     } else {
-      UnAuthenticated();
+      emit(UnAuthenticated());
     }
     } catch(e) {
       emit(AuthError(e.toString()));
@@ -51,7 +51,7 @@ class AuthCubit extends Cubit<AuthState>{
       _currentUser = user;
       emit(Authenticated(user));
     } else {
-      UnAuthenticated();
+      emit(UnAuthenticated());
     }
     } catch(e) {
       emit(AuthError(e.toString()));

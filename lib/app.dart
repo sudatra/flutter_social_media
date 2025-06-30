@@ -5,6 +5,7 @@ import 'package:social_media_app/features/auth/data/firebase_auth_repo.dart';
 import 'package:social_media_app/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:social_media_app/features/auth/presentation/cubits/auth_states.dart';
 import 'package:social_media_app/features/auth/presentation/pages/auth_page.dart';
+import 'package:social_media_app/features/post/presentation/pages/home_page.dart';
 import 'package:social_media_app/themes/light_mode.dart';
 
 class MyApp extends StatelessWidget {
@@ -29,13 +30,21 @@ class MyApp extends StatelessWidget {
               return const HomePage();
             }
 
-            return const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
+            else {
+              return const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
           },
-          listener: (context, state) {}
+          listener: (context, state) {
+            if(state is AuthError) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(state.message)
+              ));
+            }
+          }
         )
       ),
     );
