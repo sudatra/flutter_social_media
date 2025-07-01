@@ -35,7 +35,7 @@ class FirebaseProfileRepo implements ProfileRepo {
   }
 
   @override
-  Future<ProfileUser?> updateProfile(ProfileUser updatedProfile) async {
+  Future<void> updateProfile(ProfileUser updatedProfile) async {
     try {
       await firebaseFirestore
         .collection("users")
@@ -48,6 +48,5 @@ class FirebaseProfileRepo implements ProfileRepo {
     } catch(error) {
       throw Exception(error);
     }
-    
   }
 }
