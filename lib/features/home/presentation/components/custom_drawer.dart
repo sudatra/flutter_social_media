@@ -36,10 +36,14 @@ class CustomDrawer extends StatelessWidget {
                 icon: Icons.person, 
                 onTap: () {
                   Navigator.of(context).pop();
+
+                  final user = context.read<AuthCubit>().currentUser;
+                  String? uid = user!.uid;
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ProfilePage()
+                      builder: (context) => ProfilePage(uid: uid)
                     )
                   );
                 }
@@ -50,10 +54,14 @@ class CustomDrawer extends StatelessWidget {
                 icon: Icons.search, 
                 onTap: () {
                   Navigator.of(context).pop();
+
+                  final user = context.read<AuthCubit>().currentUser;
+                  String? uid = user!.uid;
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ProfilePage()
+                      builder: (context) => ProfilePage(uid: uid)
                     )
                   );
                 }
@@ -64,10 +72,14 @@ class CustomDrawer extends StatelessWidget {
                 icon: Icons.settings, 
                 onTap: () {
                   Navigator.of(context).pop();
+
+                  final user = context.read<AuthCubit>().currentUser;
+                  String? uid = user!.uid;
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ProfilePage()
+                      builder: (context) => ProfilePage(uid: uid)
                     )
                   );
                 }
