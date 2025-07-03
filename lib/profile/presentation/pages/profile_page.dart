@@ -5,6 +5,7 @@ import 'package:social_media_app/features/auth/presentation/cubits/auth_cubit.da
 import 'package:social_media_app/profile/presentation/components/bio_box.dart';
 import 'package:social_media_app/profile/presentation/cubits/profile_cubit.dart';
 import 'package:social_media_app/profile/presentation/cubits/profile_state.dart';
+import 'package:social_media_app/profile/presentation/pages/edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
   final String uid;
@@ -40,7 +41,18 @@ class _ProfilePageState extends State<ProfilePage> {
           return Scaffold(
             appBar: AppBar(
               title: Center(child: Text(user!.name)),
-              foregroundColor: Theme.of(context).colorScheme.primary
+              foregroundColor: Theme.of(context).colorScheme.primary,
+              actions: [
+                IconButton(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditProfilePage(user: user)
+                    )
+                  ),
+                  icon: const Icon(Icons.settings),
+                )
+              ],
             ),
             body: Column(
               children: [
