@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:social_media_app/features/home/presentation/components/custom_drawer_tile.dart';
-import 'package:social_media_app/profile/presentation/pages/profile_page.dart';
+import 'package:social_media_app/features/profile/presentation/pages/profile_page.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/features/auth/domain/entities/app_user.dart';
 import 'package:social_media_app/features/auth/presentation/cubits/auth_cubit.dart';
-import 'package:social_media_app/profile/presentation/components/bio_box.dart';
-import 'package:social_media_app/profile/presentation/cubits/profile_cubit.dart';
-import 'package:social_media_app/profile/presentation/cubits/profile_state.dart';
-import 'package:social_media_app/profile/presentation/pages/edit_profile_page.dart';
+import 'package:social_media_app/features/profile/presentation/components/bio_box.dart';
+import 'package:social_media_app/features/profile/presentation/cubits/profile_cubit.dart';
+import 'package:social_media_app/features/profile/presentation/cubits/profile_state.dart';
+import 'package:social_media_app/features/profile/presentation/pages/edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
   final String uid;
