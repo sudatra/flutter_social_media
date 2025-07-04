@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'dart:typed_data';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -90,7 +92,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  Widget buildEditPage({ double uploadProgress = 0.0 }) {
+  Widget buildEditPage() {
     return Scaffold(
       appBar: AppBar(
         title: Center(child: const Text("Edit Profile")),
@@ -104,6 +106,49 @@ class _EditProfilePageState extends State<EditProfilePage> {
       ),
       body: Column(
         children: [
+          Center(
+            child: Container(
+              height: 200,
+              width: 200,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.secondary,
+                shape: BoxShape.circle
+              ),
+              clipBehavior: Clip.hardEdge,
+              child: 
+                (!kIsWeb && imagePickedFile != null)
+                ? Image.file(
+                  File(imagePickedFile!.path!),
+                  fit: BoxFit.cover,
+                )
+                : (kIsWeb && webImage != null)
+                ? Image.memory(webImage!)
+                : CachedNetworkImage(
+                    imageUrl: widget.user.profileImageUrl,
+                    placeholder: (context, url) => const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(
+                      Icons.person,
+                      size: 72,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    imageBuilder: (context, imageProvider) => Image(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+              ,
+            ),
+          ),
+
+          const SizedBox(height: 25),
+          Center(
+            child: MaterialButton(
+              onPressed: pickImage,
+              color: Colors.blue,
+              child: const Text("Pick Image"), 
+            ),
+          ),
+
           Text("Bio"),
 
           const SizedBox(height: 10),
