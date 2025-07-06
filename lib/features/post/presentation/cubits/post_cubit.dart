@@ -21,14 +21,16 @@ class PostCubit extends Cubit<PostState> {
 
       if(imagePath != null) {
         emit(PostUploading());
-        imageUrl = await storageRepo.uploadProfileImageMobile(imagePath, post.id);
+        imageUrl = await storageRepo.uploadPostImageMobile(imagePath, post.id);
       } else if(imageBytes != null) {
         emit(PostUploading());
-        imageUrl = await storageRepo.uploadProfileImageWeb(imageBytes, post.id);
+        imageUrl = await storageRepo.uploadPostImageWeb(imageBytes, post.id);
       }
 
       final newPost = post.copyWith(imageUrl: imageUrl);
       postRepo.createPost(newPost);
+
+      fetchAllPosts();
     } catch(error) {
       emit(PostError("Failed to create post: $error"));
     }

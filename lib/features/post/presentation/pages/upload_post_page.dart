@@ -111,6 +111,14 @@ class _UploadPostPageState extends State<UploadPostPage> {
       appBar: AppBar(
         title: Center(child: const Text("Upload Post")),
         foregroundColor: Theme.of(context).colorScheme.primary,
+        actions: [
+          IconButton(
+            onPressed: uploadPost, 
+            icon: const Icon(
+              Icons.upload
+            )
+          )
+        ],
       ),
       body: Center(
         child: Column(
