@@ -28,6 +28,8 @@ class ProfileCubit extends Cubit<ProfileState> {
       emit(ProfileErrors(error.toString()));
     }
   }
+
+
   
   Future<void> updateProfile({
     required String uid,
