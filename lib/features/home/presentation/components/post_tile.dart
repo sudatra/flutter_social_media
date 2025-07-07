@@ -45,8 +45,13 @@ class _PostTileState extends State<PostTile> {
     isOwnPost = (widget.post.userId == currentUser!.uid);
   }
 
-  void fetchPostUser() {
-    
+  void fetchPostUser() async {
+    final fetchedUser = await profileCubit.getUserProfile(widget.post.userId);
+    if(fetchedUser != null) {
+      setState(() {
+        postUser = fetchedUser;
+      });
+    }
   }
 
 
@@ -75,31 +80,84 @@ class _PostTileState extends State<PostTile> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              widget.post.userName
+    return Container(
+      color: Theme.of(context).colorScheme.secondary,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                postUser?.profileImageUrl != null 
+                  ? CachedNetworkImage(
+                    imageUrl: postUser!.profileImageUrl,
+                    errorWidget: (context, url, error) => const Icon(Icons.person),
+                    imageBuilder: (context, imageProvider) => Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover
+                        )
+                      ),
+                    )
+                  )
+                  : const Icon(Icons.person)
+                ,
+
+                const SizedBox(width: 10),
+                Text(
+                  widget.post.userName,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+            
+                const Spacer(),
+                if(isOwnPost)
+                  GestureDetector(
+                    onTap: showOptions,
+                    child: Icon(
+                      Icons.delete,
+                      color: Theme.of(context).colorScheme.primary,
+                    )
+                  )
+              ],
             ),
+          ),
+      
+          CachedNetworkImage(
+            imageUrl: widget.post.imageUrl,
+            height: 430,
+            width: double.infinity,
+            fit: BoxFit.cover,
+            placeholder: (context, url) => const SizedBox(height: 430),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
+          ),
 
-            IconButton(
-              onPressed: showOptions,
-              icon: Icon(Icons.delete),
-            )
-          ],
-        ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              children: [
+                Icon(Icons.favorite_border),
+                Text("0"),
 
-        CachedNetworkImage(
-          imageUrl: widget.post.imageUrl,
-          height: 430,
-          width: double.infinity,
-          fit: BoxFit.cover,
-          placeholder: (context, url) => const SizedBox(height: 430),
-          errorWidget: (context, url, error) => const Icon(Icons.error),
-        ),
-      ],
+                const SizedBox(width: 20),
+
+                Icon(Icons.comment),
+                Text("0"),
+            
+                const Spacer(),
+                Text(widget.post.timestamp.toString())
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }
