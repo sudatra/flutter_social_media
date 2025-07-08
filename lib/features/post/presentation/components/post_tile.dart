@@ -78,7 +78,27 @@ class _PostTileState extends State<PostTile> {
   }
 
   void toggleLikePost() {
-    postCubit.toggleLikePost(widget.post.id, currentUser!.uid);
+    final isLiked = widget.post.likes.contains(currentUser!.uid);
+    setState(() {
+      if(isLiked) {
+        widget.post.likes.remove(currentUser!.uid);
+      } else {
+        widget.post.likes.add(currentUser!.uid);
+      }
+    });
+
+    postCubit
+      .toggleLikePost(widget.post.id, currentUser!.uid)
+      .catchError((error) {
+        setState(() {
+          if(isLiked) {
+            widget.post.likes.add(currentUser!.uid);
+          } else {
+            widget.post.likes.remove(currentUser!.uid);
+          }
+        });
+      })
+    ;
   }
 
   @override
@@ -146,17 +166,34 @@ class _PostTileState extends State<PostTile> {
             padding: const EdgeInsets.all(20.0),
             child: Row(
               children: [
-                GestureDetector(
-                  onTap: toggleLikePost,
-                  child: Icon(
-                    widget.post.likes.contains(currentUser!.uid)
-                    ? Icons.favorite
-                    : Icons.favorite_border
+                SizedBox(
+                  width: 50,
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: toggleLikePost,
+                        child: Icon(
+                            widget.post.likes.contains(currentUser!.uid)
+                            ? Icons.favorite
+                            : Icons.favorite_border
+                          ,
+                          color: widget.post.likes.contains(currentUser!.uid)
+                            ? Colors.red
+                            : Theme.of(context).colorScheme.primary
+                        ),
+                      ),
+                      
+                      const SizedBox(width: 5),
+                      Text(
+                        widget.post.likes.length.toString(),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 12
+                        ),
+                      )
+                    ],
                   ),
                 ),
-                Text(widget.post.likes.length.toString()),
-
-                const SizedBox(width: 20),
 
                 Icon(Icons.comment),
                 Text("0"),
