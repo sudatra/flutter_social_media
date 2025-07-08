@@ -8,4 +8,6 @@ abstract class PostRepo {
   Future<void> deletePost(String postId);
 
   Future<List<Post>> fetchPostsByUserId(String userId);
+
+  Future<void> toggleLikePost(String postId, String userId);
 }
