@@ -54,7 +54,6 @@ class _PostTileState extends State<PostTile> {
     }
   }
 
-
   void showOptions() {
     showDialog(
       context: context, 
@@ -76,6 +75,10 @@ class _PostTileState extends State<PostTile> {
         ],
       )
     );
+  }
+
+  void toggleLikePost() {
+    postCubit.toggleLikePost(widget.post.id, currentUser!.uid);
   }
 
   @override
@@ -143,8 +146,15 @@ class _PostTileState extends State<PostTile> {
             padding: const EdgeInsets.all(20.0),
             child: Row(
               children: [
-                Icon(Icons.favorite_border),
-                Text("0"),
+                GestureDetector(
+                  onTap: toggleLikePost,
+                  child: Icon(
+                    widget.post.likes.contains(currentUser!.uid)
+                    ? Icons.favorite
+                    : Icons.favorite_border
+                  ),
+                ),
+                Text(widget.post.likes.length.toString()),
 
                 const SizedBox(width: 20),
 
