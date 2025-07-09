@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/features/auth/domain/entities/app_user.dart';
+import 'package:social_media_app/features/auth/presentation/components/custom_text_field.dart';
 import 'package:social_media_app/features/auth/presentation/cubits/auth_cubit.dart';
+import 'package:social_media_app/features/post/domain/entities/comment.dart';
 import 'package:social_media_app/features/post/domain/entities/post.dart';
 import 'package:social_media_app/features/post/presentation/cubits/post_cubit.dart';
 import 'package:social_media_app/features/profile/domain/entities/profile_user.dart';
@@ -29,6 +31,8 @@ class _PostTileState extends State<PostTile> {
 
   bool isOwnPost = false;
   ProfileUser? postUser;
+
+  final commentController = TextEditingController();
 
   @override
   void initState() {
@@ -99,6 +103,55 @@ class _PostTileState extends State<PostTile> {
         });
       })
     ;
+  }
+
+  void addComment() {
+    final newComment = Comment(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      postId: widget.post.id,
+      userId: widget.post.userId,
+      userName: widget.post.userName,
+      text: commentController.text,
+      timestamp: DateTime.now()
+    );
+
+    if(commentController.text.isNotEmpty) {
+      postCubit.addComment(widget.post.id, newComment);
+    }
+  }
+
+  @override
+  void dispose() {
+    commentController.dispose();
+    super.dispose();
+  }
+
+  void openNewCommentBox() {
+    showDialog(
+      context: context, 
+      builder: (context) => AlertDialog(
+        title: Text('Add a new Comment'),
+        content: CustomTextField(
+          controller: commentController, 
+          hintText: 'Type a comment', 
+          obscureText: false
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(), 
+            child: const Text("Cancel")
+          ),
+
+          TextButton(
+            onPressed: () {
+              addComment();
+              Navigator.of(context).pop();
+            }, 
+            child: const Text("Add")
+          )
+        ],
+      )
+    );
   }
 
   @override
@@ -195,8 +248,22 @@ class _PostTileState extends State<PostTile> {
                   ),
                 ),
 
-                Icon(Icons.comment),
-                Text("0"),
+                GestureDetector(
+                  onTap: openNewCommentBox,
+                  child: Icon(
+                    Icons.comment,
+                    color: Theme.of(context).colorScheme.primary
+                  ),
+                ),
+
+                const SizedBox(width: 5),
+                Text(
+                  widget.post.comments.length.toString(),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 12
+                  )
+                ),
             
                 const Spacer(),
                 Text(widget.post.timestamp.toString())
