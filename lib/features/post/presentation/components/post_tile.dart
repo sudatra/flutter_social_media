@@ -6,6 +6,7 @@ import 'package:social_media_app/features/auth/presentation/components/custom_te
 import 'package:social_media_app/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:social_media_app/features/post/domain/entities/comment.dart';
 import 'package:social_media_app/features/post/domain/entities/post.dart';
+import 'package:social_media_app/features/post/presentation/components/comment_tile.dart';
 import 'package:social_media_app/features/post/presentation/cubits/post_cubit.dart';
 import 'package:social_media_app/features/post/presentation/cubits/post_states.dart';
 import 'package:social_media_app/features/profile/domain/entities/profile_user.dart';
@@ -110,8 +111,8 @@ class _PostTileState extends State<PostTile> {
     final newComment = Comment(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       postId: widget.post.id,
-      userId: widget.post.userId,
-      userName: widget.post.userName,
+      userId: currentUser!.uid,
+      userName: currentUser!.name,
       text: commentController.text,
       timestamp: DateTime.now()
     );
@@ -303,25 +304,7 @@ class _PostTileState extends State<PostTile> {
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       final comment = post.comments[index];
-
-                      return Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: Row(
-                          children: [
-                            Text(
-                              comment.userName,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold
-                              ),
-                            ),
-
-                            const SizedBox(width: 10),
-                            Text(
-                              comment.text,
-                            )
-                          ],
-                        ),
-                      );
+                      return CommentTile(comment: comment);
                     }
                   );
                 }
