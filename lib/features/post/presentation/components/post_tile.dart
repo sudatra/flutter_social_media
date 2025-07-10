@@ -7,6 +7,7 @@ import 'package:social_media_app/features/auth/presentation/cubits/auth_cubit.da
 import 'package:social_media_app/features/post/domain/entities/comment.dart';
 import 'package:social_media_app/features/post/domain/entities/post.dart';
 import 'package:social_media_app/features/post/presentation/cubits/post_cubit.dart';
+import 'package:social_media_app/features/post/presentation/cubits/post_states.dart';
 import 'package:social_media_app/features/profile/domain/entities/profile_user.dart';
 import 'package:social_media_app/features/profile/presentation/cubits/profile_cubit.dart';
 
@@ -269,6 +270,75 @@ class _PostTileState extends State<PostTile> {
                 Text(widget.post.timestamp.toString())
               ],
             ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+            child: Row(
+              children: [
+                Text(
+                  widget.post.userName,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+            
+                const SizedBox(width: 10),
+                Text(widget.post.text)
+              ]
+            ),
+          ),
+
+          BlocBuilder<PostCubit, PostState>(
+            builder: (context, state) {
+              if(state is PostLoaded) {
+                final post = state.posts.firstWhere((post) => (post.id == widget.post.id));
+
+                if(post.comments.isNotEmpty) {
+                  int showCommentCount = post.comments.length;
+
+                  return ListView.builder(
+                    itemCount: showCommentCount,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final comment = post.comments[index];
+
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              comment.userName,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+
+                            const SizedBox(width: 10),
+                            Text(
+                              comment.text,
+                            )
+                          ],
+                        ),
+                      );
+                    }
+                  );
+                }
+              }
+
+              if(state is PostLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if(state is PostError) {
+                return Center(
+                  child: Text(state.message)
+                );
+              } else {
+                return const SizedBox();
+              }
+            }
           )
         ],
       ),
