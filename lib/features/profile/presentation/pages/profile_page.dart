@@ -7,6 +7,7 @@ import 'package:social_media_app/features/post/presentation/components/post_tile
 import 'package:social_media_app/features/post/presentation/cubits/post_cubit.dart';
 import 'package:social_media_app/features/post/presentation/cubits/post_states.dart';
 import 'package:social_media_app/features/profile/presentation/components/bio_box.dart';
+import 'package:social_media_app/features/profile/presentation/components/follow_button.dart';
 import 'package:social_media_app/features/profile/presentation/cubits/profile_cubit.dart';
 import 'package:social_media_app/features/profile/presentation/cubits/profile_state.dart';
 import 'package:social_media_app/features/profile/presentation/pages/edit_profile_page.dart';
@@ -38,6 +39,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isOwnPost = (widget.uid == currentUser!.uid);
+
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         if(state is ProfileLoaded) {
@@ -48,15 +51,16 @@ class _ProfilePageState extends State<ProfilePage> {
               title: Center(child: Text(user!.name)),
               foregroundColor: Theme.of(context).colorScheme.primary,
               actions: [
-                IconButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EditProfilePage(user: user)
-                    )
-                  ),
-                  icon: const Icon(Icons.settings),
-                )
+                if(isOwnPost)
+                  IconButton(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditProfilePage(user: user)
+                      )
+                    ),
+                    icon: const Icon(Icons.settings),
+                  )
               ],
             ),
             body: ListView(
@@ -92,6 +96,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
             
+                const SizedBox(height: 25),
+
+                if(!isOwnPost)
+                  FollowButton(
+                    isFollowing: false, 
+                    onPressed: () {}
+                  ),
+
                 const SizedBox(height: 25),
                 Padding(
                   padding: const EdgeInsets.only(left: 25.0, top: 25),
