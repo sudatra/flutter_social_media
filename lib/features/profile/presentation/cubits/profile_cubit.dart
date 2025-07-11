@@ -78,7 +78,6 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> toggleFollow(String currentUserId, String targetUserId) async {
     try {
       await profileRepo.toggleFollow(currentUserId, targetUserId);
-      await fetchUserProfile(targetUserId);
     } catch(error) {
       emit(ProfileErrors("Error toggling profile follow: $error"));
     }
