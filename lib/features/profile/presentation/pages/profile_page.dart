@@ -128,8 +128,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(height: 25),
                 ProfileStats(
                   postCount: postCount, 
-                  followerCount: 0, 
-                  followingCount: 0
+                  followerCount: user.followers.length, 
+                  followingCount: user.following.length
                 ),
                 
                 const SizedBox(height: 25),

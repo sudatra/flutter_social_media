@@ -14,6 +14,13 @@ class ProfileStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var textStyleForCount = TextStyle(
+      fontSize: 20,
+      color: Theme.of(context).colorScheme.inversePrimary
+    );
+
+    var textStyleForText = TextStyle(color: Theme.of(context).colorScheme.primary);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -21,8 +28,8 @@ class ProfileStats extends StatelessWidget {
           width: 100,
           child: Column(
             children: [
-              Text(postCount.toString()),
-              Text("Posts")
+              Text(postCount.toString(), style: textStyleForCount),
+              Text("Posts", style: textStyleForText)
             ],
           ),
         ),
@@ -31,8 +38,8 @@ class ProfileStats extends StatelessWidget {
           width: 100,
           child: Column(
             children: [
-              Text(followerCount.toString()),
-              Text("Followers")
+              Text(followerCount.toString(), style: textStyleForCount),
+              Text("Followers", style: textStyleForText)
             ],
           ),
         ),
@@ -41,8 +48,8 @@ class ProfileStats extends StatelessWidget {
           width: 100,
           child: Column(
             children: [
-              Text(followingCount.toString()),
-              Text("Following")
+              Text(followingCount.toString(), style: textStyleForCount),
+              Text("Following", style: textStyleForText)
             ],
           ),
         )
