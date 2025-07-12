@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_media_app/features/profile/presentation/components/user_tile.dart';
 import 'package:social_media_app/features/profile/presentation/cubits/profile_cubit.dart';
 
 class FollowerPage extends StatelessWidget {
@@ -19,7 +20,10 @@ class FollowerPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           bottom: TabBar(
-            tabs: [
+            dividerColor: Colors.transparent,
+            labelColor: Theme.of(context).colorScheme.inversePrimary,
+            unselectedLabelColor: Theme.of(context).colorScheme.primary,
+            tabs: const [
               Tab(text: "Followers"),
               Tab(text: "Following")
             ],
@@ -48,10 +52,7 @@ class FollowerPage extends StatelessWidget {
             builder: (context, snapshot) {
               if(snapshot.hasData) {
                 final user = snapshot.data!;
-
-                return ListTile(
-                  title: Text(user.name),
-                );
+                return UserTile(user: user);
               } else if(snapshot.connectionState == ConnectionState.waiting) {
                 return ListTile(
                   title: Text("Loading..."),
