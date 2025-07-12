@@ -12,6 +12,7 @@ import 'package:social_media_app/features/profile/presentation/components/profil
 import 'package:social_media_app/features/profile/presentation/cubits/profile_cubit.dart';
 import 'package:social_media_app/features/profile/presentation/cubits/profile_state.dart';
 import 'package:social_media_app/features/profile/presentation/pages/edit_profile_page.dart';
+import 'package:social_media_app/features/profile/presentation/pages/follower_page.dart';
 
 class ProfilePage extends StatefulWidget {
   final String uid;
@@ -129,7 +130,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 ProfileStats(
                   postCount: postCount, 
                   followerCount: user.followers.length, 
-                  followingCount: user.following.length
+                  followingCount: user.following.length,
+                  onTap: () => Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => FollowerPage(
+                      followers: user.followers, 
+                      following: user.following
+                    )
+                  )),
                 ),
                 
                 const SizedBox(height: 25),
@@ -171,6 +178,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           if(state is PostLoaded) {
                             final userPosts = state.posts.where((post) => post.userId == widget.uid).toList();
                             postCount = userPosts.length;
+
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              if (mounted && postCount != userPosts.length) {
+                                setState(() {
+                                  postCount = userPosts.length;
+                                });
+                              }
+                            });
 
                             return ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
