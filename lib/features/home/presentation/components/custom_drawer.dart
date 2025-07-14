@@ -4,6 +4,7 @@ import 'package:social_media_app/features/auth/presentation/cubits/auth_cubit.da
 import 'package:social_media_app/features/home/presentation/components/custom_drawer_tile.dart';
 import 'package:social_media_app/features/profile/presentation/pages/profile_page.dart';
 import 'package:social_media_app/features/search/presentation/pages/search_page.dart';
+import 'package:social_media_app/features/settings/presentation/pages/settings_page.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -69,14 +70,10 @@ class CustomDrawer extends StatelessWidget {
                 icon: Icons.settings, 
                 onTap: () {
                   Navigator.of(context).pop();
-
-                  final user = context.read<AuthCubit>().currentUser;
-                  String? uid = user!.uid;
-
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ProfilePage(uid: uid)
+                      builder: (context) => SettingsPage()
                     )
                   );
                 }
