@@ -14,6 +14,7 @@ import 'package:social_media_app/features/search/data/firebase_search_repo.dart'
 import 'package:social_media_app/features/search/presentation/cubits/search_cubit.dart';
 import 'package:social_media_app/features/storage/data/firebase_storage_repo.dart';
 import 'package:social_media_app/themes/light_mode.dart';
+import 'package:social_media_app/themes/theme_cubit.dart';
 
 class MyApp extends StatelessWidget {
   final firebaseAuthRepo = FirebaseAuthRepo();
@@ -37,7 +38,8 @@ class MyApp extends StatelessWidget {
           postRepo: firebasePostRepo, 
           storageRepo: firebaseStorageRepo
         )),
-        BlocProvider<SearchCubit>(create: (context) => SearchCubit(searchRepo: firebaseSearchRepo))
+        BlocProvider<SearchCubit>(create: (context) => SearchCubit(searchRepo: firebaseSearchRepo)),
+        BlocProvider<ThemeCubit>(create: (context) => ThemeCubit())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
